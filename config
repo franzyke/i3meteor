@@ -37,10 +37,10 @@ bindsym $mod+Return exec i3-sensible-terminal
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start dmenu (a program launcher)
-# bindsym $mod+d exec rofi -show run -font "ubuntu mono 18" -fg "#505050" -bg "#000000" -hlfg "#55ffb964" -hlbg "#000000" -opacity 20 -fullscreen -width 100 -lines 1 -padding 100 -separator-style none -hide-scrollbar -bw 4 -bc "#111111"
 
-bindsym $mod+d exec dmenu_run
+# start dmenu (a program launcher)
+bindsym $mod+d exec rofi -show run
+#bindsym $mod+d exec dmenu_run
 # bindsym $mod+d exec dmenu_run
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
@@ -87,10 +87,10 @@ bindsym $mod+shift+w layout tabbed
 bindsym $mod+shift+s layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+#bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+shift+f focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -166,12 +166,12 @@ for_window [class="Enpass-Desktop"] floating enable
 exec --no-startup-id google-chrome
 #exec --no-startup-id subl
 exec --no-startup-id i3-sensible-terminal
-exec --no-startup-id /opt/Enpass/bin/runenpass.sh %U
+#exec --no-startup-id /opt/Enpass/bin/runenpass.sh %U
 exec --no-startup-id compton
 
 # wallpaper
-# exec_always feh --randomize --bg-max /home/francis/Pictures/wpp/*
-exec_always feh --bg-max /home/francis/Pictures/wpp/meteor.jpg
+exec_always feh --randomize --bg-max /home/francis/Pictures/wpp/*
+#exec_always feh --bg-max /home/francis/Pictures/wpp/meteor.jpg
 # exec --no-startup-id feh
 
 # applets 
@@ -212,7 +212,28 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 
+# shutdown menu
 bindsym $mod+g mode "resize"
+set $sysmenu "R-REBOOT BKSP-SHUTDOWN"
+bindsym $mod+BackSpace mode $sysmenu
+
+mode $sysmenu {
+    bindsym r exec reboot
+    bindsym l exit
+    bindsym BackSpace exec poweroff
+    bindsym Return    mode "default"
+    bindsym Escape    mode "default"
+}
+
+# apps menu
+set $apps "LAUNCH"
+bindsym $mod+Space mode $apps
+
+mode $apps {
+    bindsym s exec subl; mode "default"
+    bindsym c exec google-chrome; mode "default"
+    bindsym g exec git-cola; mode "default"
+}
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
